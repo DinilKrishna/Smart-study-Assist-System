@@ -13,31 +13,46 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+
+Routes all authentication-related endpoints such as:
+- user registration
+- login (JWT)
+- logout
+- current authenticated user
+
+See:
+https://docs.djangoproject.com/en/5.2/topics/http/urls/
 """
 
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
-from api.views import RegisterView, MeView, LogoutView
 from django.http import JsonResponse
-
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from api.views import (
+    UserRegistrationView,
+    UserLoginView,
+    CurrentUserView,
+    UserLogoutView,
+)
 
 def home(request):
+    """
+    Health-check endpoint for the core service.
+    """
     return JsonResponse({"message": "Smart Study Assist Main Service is running!"})
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    # Auth & user
     path("", home),
-    path("api/auth/register/", RegisterView.as_view(), name="auth_register"),
-    path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("admin/", admin.site.urls),
+
+    # Authentication
+    path("api/auth/register/", UserRegistrationView.as_view(), name="auth_register"),
+    path("api/auth/login/", UserLoginView.as_view(), name="auth_login"),
+    path("api/auth/logout/", UserLogoutView.as_view(), name="auth_logout"),
+    path("api/auth/current-user/", CurrentUserView.as_view(), name="auth_current_user"),
+
+    # JWT utilities
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("api/auth/me/", MeView.as_view(), name="auth_me"),
-    path("api/auth/logout/", LogoutView.as_view(), name="auth_logout"),
 ]
