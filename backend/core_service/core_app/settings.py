@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from corsheaders.defaults import default_headers
 
 load_dotenv()
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Third-party
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
 
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "api.User"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -170,3 +173,13 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+]

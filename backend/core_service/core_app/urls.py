@@ -44,15 +44,15 @@ def home(request):
 
 urlpatterns = [
     path("", home),
-    path("admin/", admin.site.urls),
+    path("admin", admin.site.urls),
 
     # Authentication
-    path("api/auth/register/", UserRegistrationView.as_view(), name="auth_register"),
-    path("api/auth/login/", UserLoginView.as_view(), name="auth_login"),
-    path("api/auth/logout/", UserLogoutView.as_view(), name="auth_logout"),
-    path("api/auth/current-user/", CurrentUserView.as_view(), name="auth_current_user"),
+    path("api/auth/register", UserRegistrationView.as_view(), name="auth_register"),
+    path("api/auth/login", UserLoginView.as_view(), name="auth_login"),
+    path("api/auth/logout", UserLogoutView.as_view(), name="auth_logout"),
+    path("api/auth/current-user", CurrentUserView.as_view(), name="auth_current_user"),
 
     # JWT utilities
-    path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("api/auth/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/auth/token/verify", TokenVerifyView.as_view(), name="token_verify"),
 ]

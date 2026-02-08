@@ -1,24 +1,25 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "../pages/Home";
-import Auth from "../pages/Auth";
+import Login from "../pages/auth/Login";
+import Signup from "../pages/auth/Signup";
 import Dashboard from "../pages/Dashboard";
 
-export default function AppRouter() {
-  // TEMP dummy auth state
-  const isAuthenticated = false;
+import ProtectedRoute from "../auth/ProtectedRoute";
 
+export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/signup" element={<Signup />} />
 
-        <Route
-          path="/app"
-          element={
-            isAuthenticated ? <Dashboard /> : <Navigate to="/auth" replace />
-          }
-        />
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
