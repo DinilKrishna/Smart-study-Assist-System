@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import s from "../../assets/images/s.png";
 import user_image from "../../assets/images/user.png";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -12,6 +12,27 @@ export default function Navbar() {
 
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -49,8 +70,8 @@ export default function Navbar() {
                 Login
               </Link>
             ) : (
-              <div className="relative">
-                <button onClick={() => setOpen(!open)}>
+              <div className="relative" ref={dropdownRef}>
+                <button onClick={() => setOpen(!open)} className="cursor-pointer">
                   <img
                     src={user_image}
                     alt="User profile"
@@ -60,15 +81,15 @@ export default function Navbar() {
 
                 {open && (
                   <div className="absolute right-0 mt-3 w-44 bg-slate-800 rounded-md shadow-lg py-2">
-                    <Link to="/profile" className="block px-4 py-2 text-sm hover:bg-slate-700">
+                    <Link to="/profile" className="block w-full px-4 py-2 text-sm hover:bg-slate-700 transition text-left cursor-pointer">
                       Profile
                     </Link>
-                    <Link to="/settings" className="block px-4 py-2 text-sm hover:bg-slate-700">
+                    <Link to="/settings" className="block w-full px-4 py-2 text-sm hover:bg-slate-700 transition text-left cursor-pointer">
                       Settings
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="btn btn-danger w-full text-left text-sm"
+                      className="block w-full px-4 py-2 text-sm text-red-400 hover:bg-slate-700 hover:text-red-300 transition cursor-pointer text-left"
                     >
                       Logout
                     </button>
@@ -131,7 +152,7 @@ export default function Navbar() {
             <>
               <Link to="/profile">Profile</Link>
               <Link to="/settings">Settings</Link>
-              <button onClick={handleLogout} className="btn btn-danger">
+              <button onClick={handleLogout} className="text-sm text-red-400 hover:text-red-300 transition cursor-pointer text-left">
                 Logout
               </button>
             </>

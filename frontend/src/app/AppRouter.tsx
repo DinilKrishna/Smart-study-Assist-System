@@ -5,21 +5,28 @@ import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Dashboard from "../pages/Dashboard";
 
-import ProtectedRoute from "../auth/ProtectedRoute";
+import ProtectedRoute from "../routes/ProtectedRoute";
+import PublicRoute from "../routes/PublicRoute";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
+
+        {/* Always accessible */}
         <Route path="/" element={<Home />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/signup" element={<Signup />} />
+        
+        {/* Public routes */}
+        <Route element={<PublicRoute />}>
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/signup" element={<Signup />} />
+        </Route>
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
+
       </Routes>
     </BrowserRouter>
   );

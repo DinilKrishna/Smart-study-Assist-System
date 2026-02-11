@@ -7,10 +7,12 @@ type AuthState = {
   loading: boolean;
 };
 
+const token = localStorage.getItem("accessToken");
+
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
-  loading: false,
+  loading: !!token,
 };
 
 const authSlice = createSlice({
