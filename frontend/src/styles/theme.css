@@ -1,0 +1,31 @@
+@layer base {
+  :root {
+    /* Base surfaces */
+    --color-bg-main: #f8fafc;        /* off-white */
+    --color-bg-card: rgba(255, 255, 255, 0.8);
+
+    /* Brand */
+    --color-primary: #2563eb;        /* blue-600 */
+    --color-primary-hover: #3b82f6;
+
+    --color-danger: #dc2626;         /* red-600 */
+    --color-danger-hover: #ef4444;
+
+    --color-success: #16a34a;
+    --color-warning: #f59e0b;
+
+    /* Text */
+    --color-text-main: #0f172a;
+    --color-text-muted: #475569;
+
+    /* Borders */
+    --color-border-soft: rgba(148, 163, 184, 0.4);
+
+    /* Glass */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(226, 232, 240, 0.6);
+
+    /* Navbar */
+    --navbar-height: 68px;
+  }
+}
